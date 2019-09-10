@@ -1,0 +1,48 @@
+#!/bin/bash
+
+projectArray=(address user)
+projectVersion=v1
+
+function note() {
+  local GREEN NC
+  GREEN='\033[0;32m'
+  NC='\033[0m' # No Color
+  printf "\n${GREEN}$@  ${NC}\n" >&2
+}
+
+set -e
+
+if [[ $@ == *"compile"* ]]; then
+  for project in ${projectArray[*]}; do
+    note "Compiling $project..."
+    cd $project
+    gradle clean build -x test
+    cp ../Dockerfile ./build
+    eval $(minikube docker-env)
+    docker build -f ./build/Dockerfile -t $project:$projectVersion .
+    cd -
+  done
+fi
+
+if [[ $@ == *"start-k8"* ]]; then
+  eval $(minikube docker-env)
+  note "Starting building yaml files..."
+
+  for project in ${projectArray[*]}; do
+    note "Starting $project..."
+    kubectl create -f k8/$project.yaml
+    sleep 3
+  done
+  note "Starting gateway Server..."
+  kubectl create -f k8/gateway.yaml
+fi
+
+if [[ $@ == *"stop-k8"* ]]; then
+  note "Stoping kubernetes..."
+  kubectl delete -f k8/gateway.yaml
+
+  kubectl delete service ${projectArray[*]}
+  kubectl delete deployment ${projectArray[*]}
+
+fi
+#

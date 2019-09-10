@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: address
+  labels:
+    app: address
+spec:
+  type: NodePort
+  ports:
+    - port: 8081
+      nodePort: 31000
+  selector:
+    app: address
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: address
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: address
+    spec:
+      containers:
+        - name: address
+          image: address:v1
+          ports:
+            - containerPort: 8081

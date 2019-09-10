@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: address
+  data:
+    mongodb:
+      database: address
+      uri: mongodb://remoteip:27017
+server:
+  port: 8081
+
+
+
+---
+spring:
+  profiles: docker
+
+  data:
+    mongodb:
+      uri: mongodb://mongodb:27017

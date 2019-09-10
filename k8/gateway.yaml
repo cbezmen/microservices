@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: gateway-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  backend:
+    serviceName: default-http-backend
+    servicePort: 80
+  rules:
+    - host: localkubeip
+      http:
+        paths:
+          - path: /user
+            backend:
+              serviceName: user
+              servicePort: 8080
+          - path: /address
+            backend:
+              serviceName: address
+              servicePort: 8081
