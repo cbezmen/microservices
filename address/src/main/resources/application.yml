@@ -16,4 +16,4 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://mongodb:27017
+      uri: mongodb://mongo:27017

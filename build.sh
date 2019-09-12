@@ -18,7 +18,7 @@ if [[ $@ == *"compile"* ]]; then
     cd $project
     gradle clean build -x test
     cp ../Dockerfile ./build
-    eval $(minikube docker-env)
+
     docker build -f ./build/Dockerfile -t $project:$projectVersion .
     cd -
   done
@@ -27,6 +27,9 @@ fi
 if [[ $@ == *"start-k8"* ]]; then
   eval $(minikube docker-env)
   note "Starting building yaml files..."
+  note "Starting Mongo Server..."
+  kubectl create -f k8/mongo.yaml
+  sleep 2
 
   for project in ${projectArray[*]}; do
     note "Starting $project..."
@@ -44,5 +47,6 @@ if [[ $@ == *"stop-k8"* ]]; then
   kubectl delete service ${projectArray[*]}
   kubectl delete deployment ${projectArray[*]}
 
+  kubectl delete -f k8/mongo.yaml
 fi
 #

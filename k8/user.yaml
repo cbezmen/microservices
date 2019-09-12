@@ -28,3 +28,6 @@ spec:
           image: user:v1
           ports:
             - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "docker"
