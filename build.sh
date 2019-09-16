@@ -13,6 +13,7 @@ function note() {
 set -e
 
 if [[ $@ == *"compile"* ]]; then
+  eval $(minikube docker-env)
   for project in ${projectArray[*]}; do
     note "Compiling $project..."
     cd $project
@@ -28,16 +29,17 @@ if [[ $@ == *"start-k8"* ]]; then
   eval $(minikube docker-env)
   note "Starting building yaml files..."
   note "Starting Mongo Server..."
-  kubectl create -f k8/mongo.yaml
+  kubectl apply -f k8/mongo-volume.yaml
+  kubectl apply -f k8/mongo.yaml
   sleep 2
 
   for project in ${projectArray[*]}; do
     note "Starting $project..."
-    kubectl create -f k8/$project.yaml
+    kubectl apply -f k8/$project.yaml
     sleep 3
   done
   note "Starting gateway Server..."
-  kubectl create -f k8/gateway.yaml
+  kubectl apply -f k8/gateway.yaml
 fi
 
 if [[ $@ == *"stop-k8"* ]]; then

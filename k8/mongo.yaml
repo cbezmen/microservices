@@ -14,18 +14,26 @@ spec:
 
 ---
 apiVersion: apps/v1beta1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: mongo
 spec:
+  serviceName: mongo
   replicas: 1
   template:
     metadata:
       labels:
         app: mongo
     spec:
+      volumes:
+        - name: mongo-pv-storage
+          persistentVolumeClaim:
+            claimName: mongo-pv-claim
       containers:
         - name: mongo
           image: mongo:3.6.3
           ports:
             - containerPort: 27017
+          volumeMounts:
+            - name: mongo-pv-storage
+              mountPath: /data/db

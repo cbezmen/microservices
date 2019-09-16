@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface AddressClient {
 
     @GetMapping("/address/{id}")
-    String getAddress(@PathVariable String id);
+    String getAddress(@PathVariable(value = "id") String id);
 
 }
