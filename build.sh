@@ -34,6 +34,8 @@ if [[ $@ == *"start-k8"* ]]; then
   sleep 2
 
   for project in ${projectArray[*]}; do
+    note "Setting $project config"
+    kubectl apply -f k8/$project-config.yaml
     note "Starting $project..."
     kubectl apply -f k8/$project.yaml
     sleep 3
@@ -48,6 +50,11 @@ if [[ $@ == *"stop-k8"* ]]; then
 
   kubectl delete service ${projectArray[*]}
   kubectl delete deployment ${projectArray[*]}
+
+  for project in ${projectArray[*]}; do
+    note "Stoping $project config"
+    kubectl delete -f k8/$project-config.yaml
+  done
 
   kubectl delete -f k8/mongo.yaml
 fi

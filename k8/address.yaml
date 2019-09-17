@@ -12,11 +12,14 @@ spec:
   selector:
     app: address
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: address
 spec:
+  selector:
+    matchLabels:
+      app: address
   replicas: 1
   template:
     metadata:

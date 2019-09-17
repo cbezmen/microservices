@@ -8,7 +8,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class SomeUtils {
 
-    public void calculate(){
-
+    public String calculate() {
+        return "calc";
     }
 }
