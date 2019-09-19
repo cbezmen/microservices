@@ -10,6 +10,10 @@
     ```shell script
     $ kubectl create clusterrolebinding admin --clusterrole=cluster-admin --serviceaccount=default:default
     ```
+    For custom namespace such as dev-kube
+    ```shell script
+    $ kubectl create clusterrolebinding admin --clusterrole=cluster-admin --serviceaccount=dev-kube:default
+    ```
 1. Add Nginx Ingress for accessing your gateway from port 80
     1. Run Script
         ```shell script

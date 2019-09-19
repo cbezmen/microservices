@@ -1,15 +1,14 @@
 spring:
-  application:
-    name: user
   data:
     mongodb:
       database: user
       uri: mongodb://remoteip:27017
 
-
 address:
   ribbon:
     listOfServers: http://localhost:8081
+
+
 
 ---
 spring:

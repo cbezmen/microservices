@@ -28,34 +28,25 @@ fi
 if [[ $@ == *"start-k8"* ]]; then
   eval $(minikube docker-env)
   note "Starting building yaml files..."
-  note "Starting Mongo Server..."
-  kubectl apply -f k8/mongo-volume.yaml
-  kubectl apply -f k8/mongo.yaml
+  note "Starting Infrastructures"
+  kubectl apply -f k8/infrastructure/
   sleep 2
 
-  for project in ${projectArray[*]}; do
-    note "Setting $project config"
-    kubectl apply -f k8/$project-config.yaml
-    note "Starting $project..."
-    kubectl apply -f k8/$project.yaml
-    sleep 3
-  done
-  note "Starting gateway Server..."
-  kubectl apply -f k8/gateway.yaml
+  note "Setting configs"
+  kubectl apply -f k8/config/
+  note "Starting workloads"
+  kubectl apply -f k8/workload
 fi
 
 if [[ $@ == *"stop-k8"* ]]; then
-  note "Stoping kubernetes..."
-  kubectl delete -f k8/gateway.yaml
+  eval $(minikube docker-env)
+  note "Stopping kubernetes..."
+  note "Stopping workloads"
+  kubectl delete -f k8/workload
+  note "Stopping configs"
+  kubectl delete -f k8/config/
+  note "Stopping infrastructures"
+  kubectl delete -f k8/infrastructure/
 
-  kubectl delete service ${projectArray[*]}
-  kubectl delete deployment ${projectArray[*]}
-
-  for project in ${projectArray[*]}; do
-    note "Stoping $project config"
-    kubectl delete -f k8/$project-config.yaml
-  done
-
-  kubectl delete -f k8/mongo.yaml
 fi
 #

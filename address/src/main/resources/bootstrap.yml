@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: address
+  cloud:
+    kubernetes:
+      config:
+        namespace: dev-kube
+        sources:
+          - name: common
+          - name: ${spring.application.name}
+
+

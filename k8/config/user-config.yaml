@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: dev-kube
+  name: user
+data:
+  application.yml: |-
+    message:
+      hello: Hi Default Profile
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: dev-kube
+  name: user-docker
+data:
+  application.yml: |-
+    message:
+      hello: Hi Docker Profile

@@ -2,6 +2,7 @@ package com.cbezmen.microservice.user.controller;
 
 import com.cbezmen.core.library.config.MessageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,12 +15,8 @@ public class ConfigController {
     @Autowired
     private MessageProperties messageProperties;
 
-    @GetMapping(value = "/config")
+    @GetMapping(value = "/config", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String getMessage() {
-        String hello = messageProperties.getHello();
-        if (hello == null) {
-            return "this is null";
-        }
-        return hello;
+        return messageProperties.toString();
     }
 }

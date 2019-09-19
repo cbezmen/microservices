@@ -3,6 +3,7 @@ dependencies {
         exclude module: 'spring-boot-starter-tomcat'
     }
     compile('org.springframework.boot:spring-boot-starter-undertow')
+    compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.apache.httpcomponents:httpclient')
 //  DB Configuration
     compile('org.springframework.data:spring-data-mongodb')

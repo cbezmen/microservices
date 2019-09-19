@@ -17,4 +17,6 @@ import org.springframework.context.annotation.Configuration;
 public class MessageProperties {
 
     private String hello;
+
+    private String common;
 }
