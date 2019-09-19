@@ -20,7 +20,7 @@ if [[ $@ == *"compile"* ]]; then
     gradle clean build -x test
     cp ../Dockerfile ./build
 
-    docker build -f ./build/Dockerfile -t $project:$projectVersion .
+    docker build -f ./build/Dockerfile -t ${project}:$projectVersion .
     cd -
   done
 fi
@@ -35,7 +35,7 @@ if [[ $@ == *"start-k8"* ]]; then
   note "Setting configs"
   kubectl apply -f k8/config/
   note "Starting workloads"
-  kubectl apply -f k8/workload
+  awk 'FNR==1{print "---"}1' k8/workload/* | IMAGE_TAG=${projectVersion} POD=1 envsubst | kubectl apply -f -
 fi
 
 if [[ $@ == *"stop-k8"* ]]; then

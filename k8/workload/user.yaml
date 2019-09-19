@@ -22,7 +22,7 @@ spec:
   selector:
     matchLabels:
       app: user
-  replicas: 1
+  replicas: ${POD}
   template:
     metadata:
       labels:
@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: user
-          image: user:v1
+          image: user:${IMAGE_TAG}
           ports:
             - containerPort: 8080
           env:
