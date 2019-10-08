@@ -23,6 +23,11 @@ spec:
     matchLabels:
       app: user
   replicas: ${POD}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
   template:
     metadata:
       labels:
@@ -36,3 +41,17 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "docker"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            timeoutSeconds: 5
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "200m"
+            limits:
+              memory: "1024Mi"
+              cpu: "600m"

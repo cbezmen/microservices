@@ -2,6 +2,7 @@
 
 projectArray=(address user)
 projectVersion=v1
+podNumber=1
 
 function note() {
   local GREEN NC
@@ -35,7 +36,7 @@ if [[ $@ == *"start-k8"* ]]; then
   note "Setting configs"
   kubectl apply -f k8/config/
   note "Starting workloads"
-  awk 'FNR==1{print "---"}1' k8/workload/* | IMAGE_TAG=${projectVersion} POD=1 envsubst | kubectl apply -f -
+  awk 'FNR==1{print "---"}1' k8/workload/* | IMAGE_TAG=${projectVersion} POD=${podNumber} envsubst | kubectl apply -f -
 fi
 
 if [[ $@ == *"stop-k8"* ]]; then
