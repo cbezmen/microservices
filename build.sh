@@ -3,6 +3,7 @@
 projectArray=(address user)
 projectVersion=v1
 podNumber=1
+namespace=dev-kube
 
 function note() {
   local GREEN NC
@@ -50,4 +51,42 @@ if [[ $@ == *"stop-k8"* ]]; then
   kubectl delete -f k8/infrastructure/
 
 fi
-#
+
+function deploy() {
+  note "Deploying $1..."
+  DEPLOYED=$(helm ls | grep -E "$1" | grep "DEPLOYED" | wc -l)
+  if [ ${DEPLOYED} == 0 ] ; then
+    note "Installing"
+    helm install --name=$1 --namespace=$2 helm/$1
+  else
+    note "Upgrading"
+    helm upgrade $1 helm/$1
+  fi
+}
+
+function delete() {
+  note "Deleting ${1}..."
+  DEPLOYED=$(helm ls --all | grep -E "${1}" | wc -l)
+  if [ ${DEPLOYED} -gt 0 ] ; then
+    helm delete --purge ${1} 
+  fi
+
+}
+
+if [[ $@ == *"start-helm"* ]]; then
+  deploy infrastructure ${namespace}
+  for project in ${projectArray[*]}; do
+    deploy ${project} ${namespace}
+  done
+    note "Deployment finished..."
+fi
+
+if [[ $@ == *"stop-helm"* ]]; then
+  for project in ${projectArray[*]}; do
+    delete ${project} ${namespace}
+  done
+  delete infrastructure ${namespace}
+  
+  note "Deleting finished..."
+
+fi

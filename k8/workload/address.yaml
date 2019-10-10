@@ -9,7 +9,7 @@ spec:
   type: NodePort
   ports:
     - port: 8081
-      nodePort: 31000
+      nodePort: 31001
   selector:
     app: address
 ---

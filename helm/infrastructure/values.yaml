@@ -1,0 +1,57 @@
+
+gateway:
+  spec:
+    rules:
+    - host: localkubeip
+      http:
+        paths:
+          - path: /user/(.*)
+            backend:
+              serviceName: user
+              servicePort: 8080
+          - path: /address/(.*)
+            backend:
+              serviceName: address
+              servicePort: 8081
+
+mongo: 
+  replicas: 1
+  name: mongo
+  image:
+    repository: mongo
+    tag:  4.2.0
+  storage:
+    accessModes: 
+    - ReadWriteOnce
+    size: 1G
+    hostPath:
+      path: /tmp/data/db
+    volumePath:
+      path: /data/db
+  service:
+    type: NodePort
+    containerPort: 27017
+    nodePort: 32000
+
+
+config:
+  prefix: common
+  profiles:
+    default:
+      message:
+        hello: Hi Default Profile for Common
+        common: Hi Default Profile for Common
+      management:
+        endpoints:
+          web:
+            exposure:
+              include: info, health, loggers, refresh, env, loggers
+    docker:
+      message:
+        hello: Hi Default Profile for Common
+        common: Hi Default Profile for Common
+      management:
+        endpoints:
+          web:
+            exposure:
+              include: info, health, loggers, refresh, env, loggers
