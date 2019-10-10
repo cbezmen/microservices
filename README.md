@@ -30,6 +30,7 @@
 ## Compile Projects
 
 You can compile projects via: 
+### KUBECTL:    
 1. Compile project and build docker images
     ```shell script
     $ bash build.sh compile
@@ -41,4 +42,13 @@ You can compile projects via:
 1. Stop Kubernetes deployments, services and ingress
     ```shell script
     $ bash build.sh stop-k8
+    ```
+### HELM:    
+1. Start Kubernetes deployments, services and ingress 
+    ```shell script
+    $ bash build.sh start-helm
+    ```
+1. Stop Kubernetes deployments, services and ingress
+    ```shell script
+    $ bash build.sh stop-helm
     ```
