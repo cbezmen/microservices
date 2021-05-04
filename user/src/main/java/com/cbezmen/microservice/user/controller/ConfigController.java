@@ -15,7 +15,7 @@ public class ConfigController {
     @Autowired
     private MessageProperties messageProperties;
 
-    @GetMapping(value = "/config", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/config", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getMessage() {
         return messageProperties.toString();
     }

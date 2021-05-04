@@ -14,30 +14,56 @@ function note() {
 
 set -e
 
-if [[ $@ == *"compile"* ]]; then
-  eval $(minikube docker-env)
-  for project in ${projectArray[*]}; do
-    note "Compiling $project..."
-    cd $project
-    gradle clean build -x test
-    cp ../Dockerfile ./build
+function runConfig() {
+  note "Starting core"
+  kubectl apply -f k8/core/
 
-    docker build -f ./build/Dockerfile -t ${project}:$projectVersion .
+  note "Setting configs"
+  kubectl apply -f k8/config/
+}
+
+function removeConfig() {
+  note "Deleting configs"
+  kubectl delete -f k8/config/
+}
+
+function startInfrastructure() {
+  note "Starting Infrastructures"
+  kubectl apply -f k8/infrastructure/
+  sleep 2
+}
+
+function startWorkloads() {
+  note "Starting workloads"
+  awk 'FNR==1{print "---"}1' k8/workload/* | IMAGE_TAG=${projectVersion} POD=${podNumber} envsubst | kubectl apply -f -
+}
+
+if [[ $@ == *"compile"* ]]; then
+  note "Compiling projects..."
+  mvn clean install
+
+  for project in ${projectArray[*]}; do
+    note "Building docker image for $project..."
+    cd $project
+    cp ../Dockerfile ./target
+    docker build -f ./target/Dockerfile -t ${project}:$projectVersion .
     cd -
   done
 fi
 
-if [[ $@ == *"start-k8"* ]]; then
-  eval $(minikube docker-env)
-  note "Starting building yaml files..."
-  note "Starting Infrastructures"
-  kubectl apply -f k8/infrastructure/
-  sleep 2
+if [[ $@ == *"apply-config-k8"* ]]; then
+  runConfig
+fi
 
-  note "Setting configs"
-  kubectl apply -f k8/config/
-  note "Starting workloads"
-  awk 'FNR==1{print "---"}1' k8/workload/* | IMAGE_TAG=${projectVersion} POD=${podNumber} envsubst | kubectl apply -f -
+if [[ $@ == *"remove-config-k8"* ]]; then
+  removeConfig
+fi
+
+if [[ $@ == *"start-k8"* ]]; then
+  note "Starting building yaml files..."
+  runConfig
+  startInfrastructure
+  startWorkloads
 fi
 
 if [[ $@ == *"stop-k8"* ]]; then
@@ -49,44 +75,5 @@ if [[ $@ == *"stop-k8"* ]]; then
   kubectl delete -f k8/config/
   note "Stopping infrastructures"
   kubectl delete -f k8/infrastructure/
-
-fi
-
-function deploy() {
-  note "Deploying $1..."
-  DEPLOYED=$(helm ls | grep -E "$1" | grep "DEPLOYED" | wc -l)
-  if [ ${DEPLOYED} == 0 ] ; then
-    note "Installing"
-    helm install --name=$1 --namespace=$2 helm/$1
-  else
-    note "Upgrading"
-    helm upgrade $1 helm/$1
-  fi
-}
-
-function delete() {
-  note "Deleting ${1}..."
-  DEPLOYED=$(helm ls --all | grep -E "${1}" | wc -l)
-  if [ ${DEPLOYED} -gt 0 ] ; then
-    helm delete --purge ${1} 
-  fi
-
-}
-
-if [[ $@ == *"start-helm"* ]]; then
-  deploy infrastructure ${namespace}
-  for project in ${projectArray[*]}; do
-    deploy ${project} ${namespace}
-  done
-    note "Deployment finished..."
-fi
-
-if [[ $@ == *"stop-helm"* ]]; then
-  for project in ${projectArray[*]}; do
-    delete ${project} ${namespace}
-  done
-  delete infrastructure ${namespace}
-  
-  note "Deleting finished..."
 
 fi

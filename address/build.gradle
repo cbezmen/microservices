@@ -1,7 +1,0 @@
-apply plugin: 'org.springframework.boot'
-
-dependencies {
-    compile project(':core-library')
-    annotationProcessor 'org.projectlombok:lombok'
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-}

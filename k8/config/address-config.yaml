@@ -5,7 +5,13 @@ metadata:
   name: address
 data:
   application.yml: |-
-    please-set-me: :(
+    spring:
+      data:
+        mongodb:
+          database: address
+          uri: mongodb://remoteip:27017
+    server:
+      port: 8081
 
 ---
 apiVersion: v1
@@ -15,4 +21,7 @@ metadata:
   name: address-docker
 data:
   application.yml: |-
-    please-set-me: :)
+    spring:
+      data:
+        mongodb:
+          uri: mongodb://mongo:27017

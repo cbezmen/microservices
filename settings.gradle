@@ -1,5 +1,0 @@
-rootProject.name = 'microservices'
-
-include 'core-library'
-include 'address'
-include 'user'

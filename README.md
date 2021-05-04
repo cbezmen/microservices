@@ -1,54 +1,87 @@
 # Spring Kubernetes Example
 
-## Pre required
-1. For local development Minikube is required 
-    ```shell script
-    $ minikube start
-    $ minikube dashboard
-    ```
-1. For Netflix ribbon to see kubernetes you have to give role 
-    ```shell script
-    $ kubectl create clusterrolebinding admin --clusterrole=cluster-admin --serviceaccount=default:default
-    ```
-    For custom namespace such as dev-kube
-    ```shell script
-    $ kubectl create clusterrolebinding admin --clusterrole=cluster-admin --serviceaccount=dev-kube:default
-    ```
-1. Add Nginx Ingress for accessing your gateway from port 80
-    1. Run Script
-        ```shell script
-        $ minikube addons enable ingress 
-        ```
-    1. to check your ingress 
-        ```shell script
-        $ kubectl get pods -n kube-system
-        ```
-    1. Add ingress dns to /etc/hosts
-        ```shell script
-        $ 192.168.99.101  localkubeip
-        ```    
+Example Spring cloud kubernetes project. Run in local&kubernetes environment.
+
 ## Compile Projects
 
-You can compile projects via: 
-### KUBECTL:    
+You can compile projects via:
+
+### Local Development:
+
+> You need docker up and running in local environment.
+
+1. Before Running apps from you favorite IDE apply configs in local kube env
+   ```shell
+   $ bash build.sh apply-config-k8
+   ```
+   You can remove config via
+   ```shell
+   $ bash build.sh remove-config-k8
+   ```
+1. Check applications on local environment
+    1. Address Endpoint
+       ```shell
+       $ curl http://localhost:8081/address/1
+       ```
+    1. User Endpoint which calls address domain
+       ```shell
+       $ curl http://localhost:8080/users/1
+       ```
+    1. Get environment configs
+       ```shell
+       $ curl http://localhost:8080/config
+       ```
+
+### Kubernetes:
+
+> Please check ingress for kubernetes environment. [Check Adding Ingress](#add-ingress)
+
 1. Compile project and build docker images
-    ```shell script
+    ```shell
     $ bash build.sh compile
     ```
 1. Start Kubernetes deployments, services and ingress
-    ```shell script
+    ```shell
     $ bash build.sh start-k8
     ```
 1. Stop Kubernetes deployments, services and ingress
-    ```shell script
+    ```shell
     $ bash build.sh stop-k8
     ```
-### HELM:    
-1. Start Kubernetes deployments, services and ingress 
-    ```shell script
-    $ bash build.sh start-helm
-    ```
-1. Stop Kubernetes deployments, services and ingress
-    ```shell script
-    $ bash build.sh stop-helm
-    ```
+1. Check applications on kubernetes
+    1. Address Endpoint
+       ```shell
+       $ curl http://localhost:31001/address/1
+       ```
+    1. User Endpoint which calls address domain
+       ```shell
+       $ curl http://localhost:31000/users/1
+       ```
+    1. Get environment configs
+       ```shell
+       $ curl http://localhost:31000/config
+       ```
+1. Access via Ingress
+    1. Address Endpoint
+       ```shell
+       $ curl http://localhost/address-api/address/1
+       ```
+    1. User Endpoint which calls address domain
+       ```shell
+       $ curl http://localhost/user-api/users/1
+       ```
+    1. Get environment configs
+       ```shell
+       $ curl http://localhost/user-api/config
+       ```
+
+### <a name="add-ingress"></a>Add Ingress
+
+> Please read documentation for adding ingress if you are not using mac
+https://kubernetes.github.io/ingress-nginx/deploy/#docker-for-mac
+
+This command add ingress to your docker desktop kubernetes.
+
+```shell
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.46.0/deploy/static/provider/cloud/deploy.yaml 
+```
