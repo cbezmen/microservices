@@ -85,3 +85,13 @@ This command add ingress to your docker desktop kubernetes.
 ```shell
 $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.46.0/deploy/static/provider/cloud/deploy.yaml 
 ```
+
+### Cli Versions
+
+|            Cli            | Version |
+| :-----------------------: | :-----: |
+|          docker           | 20.10.5 |
+| docker desktop kubernetes | v1.19.7 |
+|            mvn            |  3.8.1  |
+
+![Deadline gif](https://i.imgur.com/7ntFRIT.gif)
