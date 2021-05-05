@@ -44,6 +44,10 @@ You can compile projects via:
     ```shell
     $ bash build.sh start-k8
     ```
+1. Scale Kubernetes deployments
+    ```shell
+    $ bash build.sh start-k8 scale=2
+    ```
 1. Stop Kubernetes deployments, services and ingress
     ```shell
     $ bash build.sh stop-k8
@@ -74,6 +78,11 @@ You can compile projects via:
        ```shell
        $ curl http://localhost/user-api/config
        ```
+1. Update Configuration
+    1. Update configuration file in user-docker config and refresh actuator via endpoint.
+    ```shell
+    $ curl -X POST http://localhost/user-api/actuator/refresh
+    ```
 
 ### <a name="add-ingress"></a>Add Ingress
 

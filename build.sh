@@ -2,7 +2,6 @@
 
 projectArray=(address user)
 projectVersion=v1
-podNumber=1
 namespace=dev-kube
 
 function note() {
@@ -13,6 +12,25 @@ function note() {
 }
 
 set -e
+
+function getEnvironmentVariables() {
+    # set key value pair from arguments
+    if [[ "$#" -eq "0" ]]; then
+        echo "Error! Usage: Remind me how this works again ..."
+        exit 1
+    fi
+
+    while [[ "$#" > "0" ]]
+    do
+        case $1 in
+        (*=*) eval $1;;
+        esac
+        shift
+    done
+}
+
+getEnvironmentVariables $@
+podNumber=${scale-1}
 
 function runConfig() {
   note "Starting core"
