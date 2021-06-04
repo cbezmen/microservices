@@ -22,7 +22,7 @@ public class DBCommandLineRunner implements CommandLineRunner {
             .id("1")
             .firstName("Can")
             .lastName("Bezmen")
-            .age(28)
+            .age(29)
             .build();
         userRepository.save(user);
     }

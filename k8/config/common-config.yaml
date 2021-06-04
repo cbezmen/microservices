@@ -12,8 +12,25 @@ data:
       endpoints:
         web:
           exposure:
-            include: info, health, loggers, refresh, env, loggers
+            include: "*"
+      endpoint:
+        health:
+          show-details: always
+      health:
+        circuitbreakers:
+          enabled: true
+    feign:
+      circuitbreaker:
+        enabled: true
+    resilience4j.timelimiter:
+      configs:
+        default:
+          timeoutDuration: 10s
 
+    resilience4j.circuitbreaker:
+      configs:
+        default:
+          registerHealthIndicator: true
 ---
 apiVersion: v1
 kind: ConfigMap

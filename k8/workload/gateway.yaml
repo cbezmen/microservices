@@ -16,10 +16,3 @@ spec:
                 name: user
                 port:
                   number: 8080
-          - path: /address-api/(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: address
-                port:
-                  number: 8081

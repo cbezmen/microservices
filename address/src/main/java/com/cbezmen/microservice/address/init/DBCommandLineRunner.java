@@ -21,7 +21,7 @@ public class DBCommandLineRunner implements CommandLineRunner {
         addressRepository.deleteAll();
         Address address = Address.builder()
             .id("1")
-            .city("My address is Hepsiburada")
+            .city("My address is Istanbul")
             .build();
         addressRepository.save(address);
 
