@@ -1,3 +1,4 @@
+[![actions](https://github.com/cbezmen/microservices/actions/workflows/maven.yml/badge.svg)](https://github.com/cbezmen/microservices/actions)
 [![codecov](https://codecov.io/gh/cbezmen/microservices/branch/master/graph/badge.svg?token=FD1C9DADQA)](https://codecov.io/gh/cbezmen/microservices)
 
 # Spring Kubernetes Example
