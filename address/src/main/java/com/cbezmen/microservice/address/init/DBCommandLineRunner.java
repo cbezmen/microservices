@@ -16,12 +16,12 @@ public class DBCommandLineRunner implements CommandLineRunner {
     private AddressRepository addressRepository;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
 
         addressRepository.deleteAll();
         Address address = Address.builder()
             .id("1")
-            .city("My address is Istanbul")
+            .city("Istanbul")
             .build();
         addressRepository.save(address);
 

@@ -5,5 +5,5 @@ package com.cbezmen.microservice.address.service;
  */
 public interface AddressService {
 
-    String getAddress(String id);
+    String getCity(String id);
 }

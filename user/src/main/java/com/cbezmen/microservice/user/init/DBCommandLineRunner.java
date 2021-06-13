@@ -16,7 +16,7 @@ public class DBCommandLineRunner implements CommandLineRunner {
     private UserRepository userRepository;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         userRepository.deleteAll();
         User user = User.builder()
             .id("1")

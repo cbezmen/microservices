@@ -1,7 +1,6 @@
 package com.cbezmen.microservice.user.service;
 
 import com.cbezmen.microservice.user.dto.UserDTO;
-import com.cbezmen.microservice.user.model.User;
 
 import java.util.List;
 
@@ -10,9 +9,8 @@ import java.util.List;
  */
 public interface UserService {
 
-    List<User> getAllUser();
+    List<UserDTO> getAllUser();
 
     UserDTO getUser(String id);
 
-    User addNewUser(User user);
 }

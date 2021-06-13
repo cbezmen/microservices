@@ -19,6 +19,6 @@ public class AddressController {
 
     @GetMapping(value = "/{id}")
     public String getAddress(@PathVariable String id) {
-        return addressService.getAddress(id);
+        return addressService.getCity(id);
     }
 }

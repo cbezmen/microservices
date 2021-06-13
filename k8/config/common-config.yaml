@@ -8,6 +8,11 @@ data:
     message:
       hello: Hi Default Profile for Common
       common: Hi Default Profile for Common
+    spring:
+      data:
+        mongodb:
+          uri: mongodb+srv://mongouser:mongopassword@microservices-cluster.cmrlg.mongodb.net/?maxPoolSize=1000&retryWrites=true&w=majority
+
     management:
       endpoints:
         web:

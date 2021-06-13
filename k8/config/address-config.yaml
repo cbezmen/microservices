@@ -9,7 +9,6 @@ data:
       data:
         mongodb:
           database: address
-          uri: mongodb://remoteip:27017
     server:
       port: 8081
 

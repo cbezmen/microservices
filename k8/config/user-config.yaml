@@ -13,7 +13,7 @@ data:
       data:
         mongodb:
           database: user
-          uri: mongodb://remoteip:27017
+
       cloud:
         discovery:
           client:

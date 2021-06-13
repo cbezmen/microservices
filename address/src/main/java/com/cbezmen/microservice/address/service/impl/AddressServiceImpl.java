@@ -6,8 +6,6 @@ import com.cbezmen.microservice.address.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 /**
  * @author canbezmen
  */
@@ -18,13 +16,10 @@ public class AddressServiceImpl implements AddressService {
     private AddressRepository addressRepository;
 
     @Override
-    public String getAddress(String id) {
-        Optional<Address> addressOptional = addressRepository.findById(id);
+    public String getCity(String id) {
+        return addressRepository.findById(id)
+            .map(Address::getCity)
+            .orElse("Address not found");
 
-        if (addressOptional.isPresent()) {
-            return addressOptional.get().getCity();
-        }
-
-        return "Address not found";
     }
 }
