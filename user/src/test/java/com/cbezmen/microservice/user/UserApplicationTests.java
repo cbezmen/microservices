@@ -1,14 +1,13 @@
 package com.cbezmen.microservice.user;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
  * @author canbezmen
  */
-@SpringBootTest
-@Profile(value = {"!kubernetes"})
+@ExtendWith(SpringExtension.class)
 class UserApplicationTests {
 
     @Test
