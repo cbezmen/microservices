@@ -37,7 +37,5 @@ jobs:
         run: mvn -B clean install --file pom.xml
       - uses: codecov/codecov-action@v1
         with:
-          token: b736f668-03a8-4b61-9c26-58a32c08449b
-          name: codecov-umbrella # optional
-          fail_ci_if_error: true # optional (default = false)
-          verbose: true # optional (default = false)
+          name: codecov-umbrella
+          fail_ci_if_error: true )
