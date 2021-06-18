@@ -17,8 +17,12 @@ public class AddressClientFallbackFactory implements FallbackFactory<AddressClie
         return new AddressClient() {
             @Override
             public String getAddress(String id) {
-                FeignException feignException = (FeignException) cause.getCause();
-                log.warn("Can't access address client status {} message {}", feignException.status(), feignException.getMessage());
+                if (cause instanceof FeignException) {
+                    FeignException feignException = (FeignException) cause.getCause();
+                    log.warn("Can't access address client status {} message {}", feignException.status(), feignException.getMessage());
+                } else {
+                    log.warn("Message: {}", cause.getCause().getMessage());
+                }
                 return "";
             }
         };
